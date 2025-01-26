@@ -1,5 +1,7 @@
 package com.rk.temporal.activity;
 
+import com.rk.temporal.model.request.OrderWorkflowInput;
+import com.rk.temporal.model.response.OrderWorkflowResponse;
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 
@@ -7,15 +9,9 @@ import io.temporal.activity.ActivityMethod;
 public interface OrderActivity {
 
     @ActivityMethod
-    void placeOrder();
+    OrderWorkflowResponse placeOrder(OrderWorkflowInput input);
 
     @ActivityMethod
-    void setOrderAccepted();
-
-    @ActivityMethod
-    void setOrderPickedUp();
-
-    @ActivityMethod
-    void setOrderDelivered();
+    OrderWorkflowResponse updateOrder(OrderWorkflowInput input);
 
 }

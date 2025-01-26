@@ -1,5 +1,6 @@
 package com.rk.temporal.model.request;
 
+import com.rk.temporal.enums.OrderState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class OrderWorkflowInput implements Serializable {
 
     private String userId;
 
-    private String orderState;
+    private OrderState orderState;
+
 
 }

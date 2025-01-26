@@ -16,6 +16,8 @@ public class AppProperties {
 
         private String orderQueueName;
 
+        private String orderQueueNameV2;
+
     }
 
     @Data
@@ -26,6 +28,16 @@ public class AppProperties {
         private String address;
 
         private String namespace;
+
+    }
+
+
+    @Data
+    @ConfigurationProperties(prefix = "oms")
+    @Component
+    public static class OMSProperties {
+
+        private String orderBaseUrl;
 
     }
 }

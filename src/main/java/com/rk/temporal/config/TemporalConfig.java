@@ -30,5 +30,4 @@ public class TemporalConfig {
     public WorkerFactory workerFactory(WorkflowClient workflowClient){
         return WorkerFactory.newInstance(workflowClient);
     }
-
 }

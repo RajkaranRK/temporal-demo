@@ -1,23 +1,28 @@
 package com.rk.temporal.workflows;
 
+import com.rk.temporal.model.request.OrderWorkflowInput;
+import com.rk.temporal.model.response.OrderWorkflowResponse;
+import io.temporal.workflow.QueryMethod;
 import io.temporal.workflow.SignalMethod;
 import io.temporal.workflow.WorkflowInterface;
 import io.temporal.workflow.WorkflowMethod;
 
 @WorkflowInterface
 public interface OrderWorkflow {
-    String QUEUE_NAME = "CUSTOMER_ORDER_QUEUE";
 
     @WorkflowMethod
-    public void startOrderWorkflow();
+    public void startOrderWorkflow(OrderWorkflowInput input);
 
     @SignalMethod
-    public void signalOrderAccepted();
+    public void signalOrderAccepted(OrderWorkflowInput input);
 
     @SignalMethod
-    void signalOrderPickup();
+    void signalOrderPickup(OrderWorkflowInput input);
 
     @SignalMethod
-    void signalOrderDelivered();
+    void signalOrderDelivered(OrderWorkflowInput input);
+
+    @QueryMethod
+    OrderWorkflowResponse checkOrder(String orderId);
 
 }

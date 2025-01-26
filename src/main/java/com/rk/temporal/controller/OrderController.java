@@ -9,34 +9,44 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/api/v1/orders")
 @RestController
-@RequestMapping("/api/v1/order")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class OrderController {
+
 
     private OrderService orderService;
 
-    @PostMapping("/createOrder")
-    public String createOrder(@RequestBody String workflowId) {
-        orderService.placeOrder(workflowId);
-        return "Order Created";
+
+    @PostMapping("/initiate")
+    public ResponseEntity<Object> createOrder(@RequestBody OrderWorkflowInput request) {
+        OrderWorkflowResponse response = orderService.placeOrder(request);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @PostMapping("/orderAccepted")
-    public String orderAccepted(@PathVariable String orderId) {
-        orderService.makeOrderAccepted(orderId);
-        return "Order Pickup";
+    @PutMapping("/{orderId}")
+    public String updateOrder(@PathVariable String orderId,@RequestBody OrderStatusRequest request) {
+        request.setOrderId(orderId);
+        orderService.updateOrder(request);
+        return request.getOrderState().name();
     }
 
-    @PostMapping("/orderPickedUp")
-    public String orderPickedUp(@RequestParam("id") String id) {
-        orderService.makeOrderPickedUp(id);
-        return "Order Pickup";
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderWorkflowResponse> orderStatus(@PathVariable("orderId") String orderId){
+        OrderWorkflowResponse response = orderService.orderStatus(orderId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/orderDelivered")
-    public String orderDelivered(@RequestParam("id") String id) {
-        orderService.makeOrderDelivered(id);
-        return "Order Delivered";
+    @PostMapping("/initiate-get")
+    public ResponseEntity<Object> createOrderAndGet(@RequestBody OrderWorkflowInput request) {
+        OrderWorkflowResponse response = orderService.createAndGet(request);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PostMapping("/markComplete")
+    public ResponseEntity<Object> markComplete(@RequestBody OrderWorkflowInput request) {
+        orderService.markComplete(request);
+        return new ResponseEntity<>("COMPLETED",HttpStatus.OK);
     }
 }

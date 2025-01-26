@@ -1,5 +1,6 @@
 package com.rk.temporal.model.request;
 
+import com.rk.temporal.enums.OrderState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,6 @@ public class OrderStatusRequest {
 
     private String orderId;
 
-    private String orderState;
+    private OrderState orderState;
 
 }
